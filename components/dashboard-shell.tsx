@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 export function DashboardShell({
   title,
@@ -9,14 +10,14 @@ export function DashboardShell({
   title: string;
   subtitle: string;
   userRole: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const menu = [
-    { label: 'الرئيسية', href: '/teacher' },
-    { label: 'الطلاب', href: '/teacher' },
-    { label: 'الدورات', href: '/courses' },
-    { label: 'الاختبارات', href: '/teacher' },
-    { label: 'الإعدادات', href: '/login' }
+    { label: 'الرئيسية', href: userRole === 'مدرس/مالك' ? '/teacher' : userRole === 'مساعد مدرس' ? '/assistant' : userRole === 'طالب' ? '/student' : '/parent' },
+    { label: 'الطلاب', href: userRole === 'مدرس/مالك' ? '/teacher/students' : userRole === 'مساعد مدرس' ? '/assistant/students' : '/student/courses', href2: '/parent/children' },
+    { label: 'الدورات', href: userRole === 'مدرس/مالك' ? '/teacher/courses' : userRole === 'مساعد مدرس' ? '/assistant' : userRole === 'طالب' ? '/student/courses' : '/parent/children' },
+    { label: 'الاختبارات', href: userRole === 'مدرس/مالك' ? '/teacher/exams' : userRole === 'مساعد مدرس' ? '/assistant' : userRole === 'طالب' ? '/student' : '/parent' },
+    { label: 'تسجيل الخروج', href: '/login' }
   ];
 
   return (
